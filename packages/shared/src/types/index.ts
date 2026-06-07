@@ -33,3 +33,40 @@ export interface IApiResponse<T> {
 export interface IApiErrorResponse {
   error: IApiError;
 }
+
+// Auth response shapes
+
+export interface IRegisterResponse {
+  userId: string;
+}
+
+export interface ILoginUser {
+  id: string;
+  email: string;
+}
+
+export interface ILoginResponse {
+  accessToken: string;
+  refreshToken: string;
+  user: ILoginUser;
+}
+
+export interface IRefreshResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
+// JWT payload shapes (not API responses — used by tokenHelpers + authMiddleware)
+
+export interface IAccessTokenPayload {
+  sub: string;
+  email: string;
+  iat?: number;
+  exp?: number;
+}
+
+export interface IRefreshTokenPayload {
+  sub: string;
+  iat?: number;
+  exp?: number;
+}

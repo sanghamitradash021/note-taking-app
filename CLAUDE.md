@@ -16,6 +16,17 @@ Proceed without asking:
 
 ---
 
+## Environment Files — Hard Prohibition
+
+Claude MUST NOT read, print, or access any `.env` file or secret values:
+
+- Do NOT `cat`, `Read`, or `grep` any `.env`, `.env.local`, `.env.*.local` file
+- Do NOT log or echo environment variable values
+- Reference only variable **names** (e.g. `JWT_SECRET`), never their values
+- If a task requires knowing an env value, ask the user to provide it directly
+
+---
+
 ## Context Management
 
 - Run `/clear` between tickets — no exceptions

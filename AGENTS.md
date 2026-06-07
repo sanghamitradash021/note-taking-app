@@ -101,7 +101,142 @@ Every error across the entire API MUST use this exact shape:
 
 ```json
 {
-  "error": {
+  "error": {---
+  Tutorial Closing Script — Spec-Driven Development with Claude Code
+
+  ---
+  Opening
+
+  "Alright, let's wrap up this tutorial by walking through everything we've
+  built and how it all fits together.
+
+  What you've just seen is spec-driven development — a workflow where every line
+  of code traces back to a requirement, and nothing gets written until the
+  design is agreed on. Let me walk you through each piece."
+
+  ---
+  The Project
+
+  "We built a note-taking API — a backend-only Express and TypeScript
+  application where authenticated users can register, log in, create notes, and
+  organise them with tags. It lives in a pnpm monorepo with a shared package for
+  types and schemas, and a PostgreSQL database managed by Prisma.
+
+  The app was built across four tickets — AB-1001 through AB-1004 — each one
+  building on the last. We just finished AB-1004, which is the tags feature."
+
+  ---
+  The Slash Commands
+
+  "Now, the interesting part is how we built it. We used four custom slash
+  commands, and each one plays a specific role in the workflow.
+
+  The first command is /spec.
+  This is where everything starts. You give it a ticket number, and it reads the
+  FRS — the Functional Requirements Specification — and the SDS — the Software
+  Design Specification. It extracts the acceptance criteria for that ticket,
+  asks you clarifying questions about edge cases, and then produces a spec.md
+  file. That file becomes the contract. It defines exactly what the feature
+  does, what the API looks like, what the database changes are, and every
+  scenario that needs to be tested. Nothing gets built until this is approved.
+
+  The second command is /plan.
+  Once the spec is approved, /plan reads it and produces a plan.md file. This is
+  the technical blueprint. It lists every file that needs to be created, every
+  file that needs to be modified, the exact TypeScript interfaces, the database
+  migration, and the architectural decisions — like which layer owns which
+  responsibility, and why. It also defines checkpoints — build, lint, test —
+  that must pass at the end of each phase before moving forward.
+
+  The third command is /tasks.
+  /tasks reads both the spec and the plan and produces a tasks.md file — a flat
+  checkbox checklist. Every implementation task, and every single test scenario
+  from the spec table, gets its own checkbox. This becomes the execution
+  checklist. The implementer works through it phase by phase and ticks things
+  off as they go.
+
+  The fourth command is /implement.
+  This is where the code actually gets written. It reads all three files — spec,
+  plan, tasks — and works through the phases in order. It asks for confirmation
+  before writing any file or running any migration, and it runs the full
+  quality gate — build, lint, test — after every phase. If anything fails, it
+  stops and fixes it before continuing. Tests are delegated to a specialised
+  test-writer agent that only writes test files and never touches
+  implementation."
+
+  ---
+  The Three Output Files
+
+  "So for each ticket, you end up with three files in openspec/changes/AB-xxxx/:
+
+  spec.md is the what — the agreed contract. It contains a summary, FRS
+  references, what's in scope and out of scope, a full scenarios table with
+  Given/When/Then for every acceptance criterion and edge case, the API request
+  and response shapes, database changes, and assumptions.
+
+  plan.md is the how — the technical blueprint. Files to create, files to
+  modify, shared package additions, the migration, TypeScript interfaces,
+  architectural decisions, and phased checkpoints.
+
+  tasks.md is the checklist — one checkbox per task and one checkbox per test
+  scenario. It's the execution tracker that takes you from zero to done."
+
+  ---
+  What the Reviewer Does
+
+  "Now, before any of this gets pushed, there's one more layer — the /review
+  command. The reviewer reads the spec, the plan, the tasks, and the actual code
+  diff. It checks that every acceptance criterion in the spec has a
+  corresponding test, that every test asserts the error code string and not just
+  the HTTP status, that no business logic has leaked into route handlers, that
+  no Prisma calls appear in services, and that the shared package is the only
+  place where types and schemas are defined. It also checks for security issues
+  — hardcoded secrets, missing auth guards, that sort of thing. If anything is
+  out of spec, it flags it before the PR is raised."
+
+  ---
+  What AB-1004 Specifically Delivered
+
+  "For this last ticket — tags — we shipped:
+
+  A database migration that added a normalizedName column to the Tag table for
+  case-insensitive uniqueness, and cascade delete on the NoteTag join table so
+  deleting a tag automatically removes it from all notes.
+
+  Five new API endpoints — list tags, create tag, delete tag, attach a tag to a
+  note, and detach a tag from a note.
+
+  A full three-layer implementation: TagRepository handling all Prisma queries,
+  TagService handling business rules like duplicate name detection and ownership
+  checks, and tagRoutes as a thin handler layer.
+
+  And sixty tests — twenty-four unit tests and thirty-six integration tests —
+  covering all twenty-three spec scenarios including idempotent attach and
+  detach, cross-user isolation, soft-deleted note handling, and case-insensitive
+  duplicate enforcement.
+
+  Final coverage: ninety-four percent overall, a hundred percent on all new
+  files."
+
+  ---
+  Closing
+
+  "The key takeaway from this tutorial is that the spec-driven workflow forces
+  you to answer hard questions before you write code. Edge cases like 'what
+  happens if you attach a tag that's already attached' or 'whose tag wins in a
+  cross-user scenario' — those get decided in the spec, documented in
+  assumptions, and tested explicitly. There's no ambiguity left when the
+  implementer starts.
+
+  Every file in the codebase traces back to a requirement. Every test traces
+  back to a scenario ID. And every scenario traces back to a line in the FRS.
+
+  That's spec-driven development. Thanks for following along."
+
+  ---
+  Total speaking time: approximately 5–7 minutes at a moderate pace.
+
+
     "code": "SNAKE_CASE_CODE",
     "message": "Human readable description.",
     "fields": ["fieldName"]

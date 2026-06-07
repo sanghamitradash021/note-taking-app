@@ -20,6 +20,15 @@ export interface INote {
   tags: ITag[];
 }
 
+export interface INoteResponse {
+  id: string;
+  title: string;
+  content: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  tags: ITag[];
+}
+
 export interface IApiError {
   code: string;
   message: string;

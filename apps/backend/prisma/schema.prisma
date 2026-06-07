@@ -33,21 +33,22 @@ model Note {
 }
 
 model Tag {
-  id        String    @id @default(cuid())
-  userId    String
-  name      String    @db.VarChar(50)
-  createdAt DateTime  @default(now())
-  user      User      @relation(fields: [userId], references: [id])
-  notes     NoteTag[]
+  id             String    @id @default(cuid())
+  userId         String
+  name           String    @db.VarChar(50)
+  normalizedName String    @db.VarChar(50)
+  createdAt      DateTime  @default(now())
+  user           User      @relation(fields: [userId], references: [id])
+  notes          NoteTag[]
 
-  @@unique([userId, name])
+  @@unique([userId, normalizedName])
 }
 
 model NoteTag {
   noteId String
   tagId  String
-  note   Note   @relation(fields: [noteId], references: [id])
-  tag    Tag    @relation(fields: [tagId], references: [id])
+  note   Note   @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
   @@id([noteId, tagId])
 }

@@ -22,3 +22,21 @@ export const logoutSchema = z.object({
 export const refreshTokenSchema = z.object({
   refreshToken: z.string().min(1),
 });
+
+export const createNoteSchema = z.object({
+  title: z.string().min(1).max(255),
+  content: z.string().nullable().optional(),
+});
+
+export const updateNoteSchema = z
+  .object({
+    title: z.string().min(1).max(255).optional(),
+    content: z.string().nullable().optional(),
+  })
+  .refine((data) => data.title !== undefined || data.content !== undefined, {
+    message: 'At least one field must be provided',
+  });
+
+export const createTagSchema = z.object({
+  name: z.string().min(1).max(50),
+});

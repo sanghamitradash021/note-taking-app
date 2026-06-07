@@ -23,6 +23,9 @@ Implementation rules:
 - Services call repositories only — no Prisma directly in services
 - Repositories contain all Prisma calls — nothing else
 
+For Phase 3 (tests), delegate entirely to the test-writer agent.
+The test-writer reads openspec/changes/$ARGUMENTS/spec.md and writes one test per scenario row covering all 6 test categories: happy path, auth, validation, business rules, boundary values, and state. It never touches implementation files.
+
 When implementation is complete, output:
 
 - ## Files Changed (path + what changed)

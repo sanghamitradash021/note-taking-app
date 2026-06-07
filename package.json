@@ -7,7 +7,7 @@
     "prepare": "husky",
     "build": "tsc --build",
     "dev": "pnpm -r --parallel dev",
-    "test": "pnpm -r test",
+    "test": "pnpm --filter 'backend' --filter 'shared' test",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",

@@ -1,0 +1,27 @@
+# Environment — never commit real secrets
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+.turbo/
+coverage/
+
+# Prisma generated client
+apps/backend/prisma/generated/
+
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
